@@ -3,88 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LordFilm TWA</title>
+    <title>LordFilm | Aloha Player</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root { --tg-theme-bg-color: #1a1a1a; --tg-theme-text-color: #ffffff; --accent-color: #f50; }
-        body { background-color: var(--tg-theme-bg-color); color: var(--tg-theme-text-color); font-family: sans-serif; margin: 0; padding-bottom: 70px; }
-        header { padding: 15px; display: flex; align-items: center; justify-content: space-between; sticky; top: 0; background: var(--tg-theme-bg-color); z-index: 100; }
-        .logo { font-size: 20px; font-weight: bold; color: var(--accent-color); text-transform: uppercase; }
-        .search-bar { padding: 10px; display: flex; gap: 10px; }
-        .search-bar input { flex: 1; background: #2b2b2b; border: 1px solid #444; border-radius: 10px; padding: 12px; color: white; outline: none; }
-        .content { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; }
-        .movie-card { background: #2b2b2b; border-radius: 10px; overflow: hidden; position: relative; transition: 0.3s; }
-        .movie-card img { width: 100%; aspect-ratio: 2/3; object-fit: cover; display: block; }
-        .movie-info { padding: 8px; font-size: 13px; font-weight: 500; height: 34px; overflow: hidden; }
-        .rating { position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.8); color: #ff0; padding: 2px 5px; border-radius: 4px; font-size: 11px; border: 1px solid var(--accent-color); }
-        nav.bottom-nav { position: fixed; bottom: 0; width: 100%; background: #111; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #333; z-index: 1000; }
-        .nav-item { text-align: center; font-size: 11px; color: #888; text-decoration: none; }
-        .nav-item.active { color: var(--accent-color); }
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background-color: #0f0f0f; 
+            color: #ffffff;
+            margin: 0; padding: 0; 
+        }
+        .container { padding: 10px; }
+        
+        /* Контейнер плеера Aloha */
+        .aloha-player-wrap { 
+            width: 100%; 
+            aspect-ratio: 16/9; 
+            background: #000; 
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #333;
+            margin-bottom: 20px;
+        }
+        iframe { width: 100%; height: 100%; border: none; }
+
+        /* Стиль баннера Ozon (тот самый, без картинок) */
+        .ozon-banner-final-css { width: 100%; margin: 15px 0; }
+        .ozon-flex-container { display: flex; text-decoration: none; border-radius: 12px; overflow: hidden; background: #005bff; border: 1px solid #e0e0e0; }
+        .ozon-blue-side { flex: 1; display: flex; align-items: center; justify-content: center; padding: 15px; min-width: 140px; }
+        .ozon-card-css { width: 120px; height: 75px; background: linear-gradient(135deg, #0073ff 0%, #004699 100%); border-radius: 8px; position: relative; padding: 10px; box-sizing: border-box; }
+        .card-chip { width: 18px; height: 14px; background: #ffd700; border-radius: 2px; }
+        .card-logo { color: white; font-weight: 900; font-size: 12px; }
+        .red-badge-fixed { position: absolute; bottom: -5px; right: -10px; background: #ff0055; color: white; font-weight: bold; font-size: 9px; padding: 4px 8px; border-radius: 4px; }
+        .ozon-white-side { flex: 1.5; background: #ffffff; padding: 15px; display: flex; flex-direction: column; justify-content: center; }
+        .ozon-white-side h3 { margin: 0; color: #005bff; font-size: 16px; }
+        .ozon-white-side p { margin: 5px 0; color: #333; font-size: 12px; }
+        .ozon-yellow-button { background: #ffcc00; color: #003db3; font-weight: bold; padding: 8px; border-radius: 6px; text-align: center; font-size: 13px; }
+
+        .admin-badge { background: #4caf50; padding: 5px; text-align: center; font-size: 12px; border-radius: 0 0 10px 10px; }
     </style>
 </head>
 <body>
+    <div id="admin-panel" class="admin-badge">LordFilm Admin: Доступ разрешен</div>
 
-    <header>
-        <div class="logo">LORD<span>FILM</span></div>
-        <i class="fas fa-bars"></i>
-    </header>
-
-    <form class="search-bar" id="search-form">
-        <input type="text" id="search-input" placeholder="Поиск фильма...">
-    </form>
-
-    <div class="content" id="movie-grid">
+    <div class="container">
+        <div class="aloha-player-wrap">
+            <iframe id="aloha-iframe" src="https://api.aloha.to/embed/imdb/tt1170358" allowfullscreen></iframe>
         </div>
 
-    <nav class="bottom-nav">
-        <a href="#" class="nav-item active"><i class="fas fa-home"></i><br>Главная</a>
-        <a href="#" class="nav-item"><i class="fas fa-bolt"></i><br>Новинки</a>
-        <a href="#" class="nav-item"><i class="fas fa-heart"></i><br>Избранное</a>
-    </nav>
+        <div class="ozon-banner-final-css">
+            <a href="https://ozon.ru/fintech/promo/ref/QQRAXMXZ7" target="_blank" rel="nofollow" class="ozon-flex-container">
+                <div class="ozon-blue-side">
+                    <div class="ozon-card-css">
+                        <div class="card-chip"></div>
+                        <div class="card-logo">OZON</div>
+                        <div class="red-badge-fixed">25% КЭШБЭК</div>
+                    </div>
+                </div>
+                <div class="ozon-white-side">
+                    <h3>БЕСПЛАТНАЯ КАРТА</h3>
+                    <p>Кэшбэк до 25% и оформление за 1 минуту!</p>
+                    <div class="ozon-yellow-button">Оформить сейчас</div>
+                </div>
+            </a>
+        </div>
+    </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
-
-        const API_KEY = '3fd2be371624a512ba16d77bb2b1f3b2'; // Тестовый ключ
-        const IMG_URL = 'https://image.tmdb.org/t/p/w500';
-        const grid = document.getElementById('movie-grid');
-        const form = document.getElementById('search-form');
-        const input = document.getElementById('search-input');
-
-        async function loadMovies(url) {
-            const res = await fetch(url);
-            const data = await res.json();
-            displayMovies(data.results);
+        
+        // Функция для смены фильма (позже прикрутим поиск)
+        function changeMovie(imdbId) {
+            document.getElementById('aloha-iframe').src = `https://api.aloha.to/embed/imdb/${imdbId}`;
         }
-
-        function displayMovies(movies) {
-            grid.innerHTML = '';
-            movies.forEach(m => {
-                if(!m.poster_path) return;
-                const card = document.createElement('div');
-                card.className = 'movie-card';
-                card.innerHTML = `
-                    <div class="rating">${m.vote_average.toFixed(1)}</div>
-                    <img src="${IMG_URL + m.poster_path}">
-                    <div class="movie-info">${m.title}</div>
-                `;
-                card.onclick = () => {
-                    tg.showPopup({ title: m.title, message: m.overview || "Описание скоро появится", buttons: [{type: 'ok', text: 'Понятно'}] });
-                };
-                grid.appendChild(card);
-            });
-        }
-
-        form.onsubmit = (e) => {
-            e.preventDefault();
-            const term = input.value;
-            if(term) loadMovies(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${term}&language=ru-RU`);
-        };
-
-        // Начальная загрузка популярных
-        loadMovies(`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=ru-RU`);
     </script>
 </body>
 </html>
